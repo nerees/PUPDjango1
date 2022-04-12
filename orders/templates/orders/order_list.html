@@ -1,0 +1,35 @@
+<!--orders/templates/product_edit.html-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="container">
+    <h3>Order list</h3>
+    <table class="table-responsive" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <th>Order date</th>
+            <th>Client</th>
+            <th>Status</th>
+            <th>Total Products</th>
+            <th>Total Price</th>
+            <th>View Details</th>
+        </thead>
+        <tbody>
+            {% for order in object_list %}
+            <tr>
+                <td>{{ order.date}}</td>
+                <td>{{ order.customer_id }}</td>
+                <td>{{ order.status_id }}</td>
+                <td>{{ order.total_quantity }}</td>
+                <td>{{ order.total_price }} EUR</td>
+                <td><a href="#"> <button class="btn">DETAILS</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+    <hr>
+    <p>
+        <a href="{% url 'home' %}"><button class="btn">Back to Home</button></a>
+    </p>
+{% endblock %}
