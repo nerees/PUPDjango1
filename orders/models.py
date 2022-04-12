@@ -6,6 +6,10 @@ class Customer(models.Model):
     l_name = models.CharField(max_length=250)
     email = models.CharField(max_length=250)
 
+    class Meta:
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'
+
     def __str__(self):
         return f'{self.f_name} {self.l_name}'
 
@@ -13,6 +17,10 @@ class Customer(models.Model):
 class Status(models.Model):
     id = models.IntegerField(unique=1, primary_key=1)
     name = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name = 'Status'
+        verbose_name_plural = 'Statuses'
 
     def __str__(self):
         return self.name
@@ -23,8 +31,12 @@ class Product(models.Model):
     name = models.CharField(max_length=250)
     price = models.FloatField(default=0.0)
 
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.price}'
 
 
 class Order(models.Model):
@@ -32,10 +44,29 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now=True, editable=False)
     status_id = models.ForeignKey(Status, on_delete=models.PROTECT)
 
-    def __str__(self):
-        return f'{self.date.strftime("%Y-%m-%d")} | {self.customer_id} | {self.status_id} | '
-        # return f'{datetime.datetime.strptime(str(self.date), "%Y-%m-%d %H:%M:%S")} {str(self.status_id)}'
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
+    def total_quantity(self):
+        product_orders = ProductOrder.objects.filter(order_id=self)
+        total = 0
+        for order in product_orders:
+            total = total + order.quantity
+
+        return total
+
+    def total_order_price(self):
+        product_orders = ProductOrder.objects.filter(order_id=self)
+        total_price = 0
+        for order in product_orders:
+            total_price = total_price + order.quantity * order.product_id.price
+
+        return total_price
+
+    def __str__(self):
+        return f'{self.date.strftime("%Y-%m-%d")} | {self.customer_id} | {self.status_id} ' \
+               f'| TOTAL products: {self.total_quantity()} ORDER TOTAL PRICE: {self.total_order_price()}'
 
 
 class ProductOrder(models.Model):
@@ -43,5 +74,9 @@ class ProductOrder(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'ProductOrder'
+        verbose_name_plural = 'ProductOrders'
+
     def __str__(self):
-        return str(self.order_id)
+        return f'{self.product_id}'
