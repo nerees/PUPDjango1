@@ -5,7 +5,7 @@
 {% block content %}
 <section class="container">
     <h3>Order list</h3>
-    <table class="table-responsive" cellpadding="0" cellspacing="0" border="0">
+    <table class="table-responsive striped" cellpadding="0" cellspacing="0" border="0">
         <thead>
             <th>Order date</th>
             <th>Client</th>
@@ -13,6 +13,7 @@
             <th>Total Products</th>
             <th>Total Price</th>
             <th>View Details</th>
+            <th>&nbsp;</th>
         </thead>
         <tbody>
             {% for order in object_list %}
@@ -22,14 +23,18 @@
                 <td>{{ order.status_id }}</td>
                 <td>{{ order.total_quantity }}</td>
                 <td>{{ order.total_price }} EUR</td>
-                <td><a href="#"> <button class="btn">DETAILS</button></a></td>
+                <td><a href="{{order.id}}"> <button class="btn">DETAILS</button></a></td>
+                <td><a href="delete/{{order.id}}"> <button class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete</i></button></a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </section>
-    <hr>
+<section class="container">
+     <hr>
     <p>
         <a href="{% url 'home' %}"><button class="btn">Back to Home</button></a>
     </p>
+</section>
+
 {% endblock %}

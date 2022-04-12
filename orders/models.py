@@ -35,6 +35,12 @@ class Product(models.Model):
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
 
+    def get_price(self):
+        return self.price
+
+    def get_name(self):
+        return self.name
+
     def __str__(self):
         return f'{self.name} - {self.price}'
 
@@ -66,7 +72,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.date.strftime("%Y-%m-%d")} | {self.customer_id} | {self.status_id} ' \
-               f'| TOTAL products: {self.total_quantity()} ORDER TOTAL PRICE: {self.total_order_price()}'
+               f'| TOTAL products: {self.total_quantity()} | ORDER TOTAL PRICE: {self.total_order_price()} EUR'
 
 
 class ProductOrder(models.Model):

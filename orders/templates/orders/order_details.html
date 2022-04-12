@@ -1,0 +1,47 @@
+<!--orders/templates/product_edit.html-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="container">
+    <h3>Order Detail </h3>
+    <h5>{{order}}</h5>
+
+    <table class="table-responsive striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{product.product_id.get_name}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.product_id.get_price}}</td>
+                <td><a href="{{product}}"><button class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete</i></button></a></td>
+            </tr>
+        {% endfor %}
+        <hr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><strong>{{order.total_quantity}}</strong></td>
+                <td><strong>{{order.total_order_price}}</strong></td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+
+    </table>
+</section>
+    <section class="container">
+        <hr>
+    <p>
+        <a href="{% url 'orders' %}"><button class="btn">Back to ORDERS</button></a>
+    </p>
+    </section>
+
+{% endblock %}
